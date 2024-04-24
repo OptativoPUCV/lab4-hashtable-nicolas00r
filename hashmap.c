@@ -41,7 +41,7 @@ int is_equal(void* key1, void* key2){
 
 void insertMap(HashMap * map, char * key, void * value) {
     Pair *newPair = createPair(key, value);
-    int pos = hash(newPair->key, map->capacity);
+    long pos = hash(newPair->key, map->capacity);
 
     while(map->buckets[pos] != NULL && map->buckets[pos]->key != NULL){
       pos++;
@@ -69,7 +69,7 @@ HashMap * createMap(long capacity) {
 }
 
 void eraseMap(HashMap * map,  char * key) {    
-  int pos = hash(key, map->capacity);
+  long pos = hash(key, map->capacity);
   
   while(map->buckets[pos] != NULL){
     if(is_equal(key, map->buckets[pos]->key) == 1){
@@ -82,7 +82,7 @@ void eraseMap(HashMap * map,  char * key) {
 }
 
 Pair * searchMap(HashMap * map,  char * key) {   
-    int pos = hash(key, map->capacity);
+    long pos = hash(key, map->capacity);
 
     while(map->buckets[pos] != NULL){
       if(is_equal(key, map->buckets[pos]->key) == 1){
@@ -97,8 +97,13 @@ Pair * searchMap(HashMap * map,  char * key) {
 }
 
 Pair * firstMap(HashMap * map) {
-
-    return NULL;
+    long pos = 0;
+    while(map->buckets[pos] == NULL || map->buckets[pos]->key == NULL){
+      pos++;
+      if(pos == map->capacity) return NULL;
+    }
+    map->current = pos;
+    return map->buckets[pos];
 }
 
 Pair * nextMap(HashMap * map) {
