@@ -79,9 +79,11 @@ Pair * searchMap(HashMap * map,  char * key) {
     if(map->buckets[pos] == NULL) return NULL;
 
     while(map->buckets[pos] != NULL){
-      if(is_equal(key, map->buckets[pos]->key) == 1) return map->buckets[pos];
+      if(is_equal(key, map->buckets[pos]->key) == 1){
+        map->current = pos;
+        return map->buckets[pos];
+      }
       pos++;
-
       if(pos >= map->capacity) pos = 0;
     }
   
